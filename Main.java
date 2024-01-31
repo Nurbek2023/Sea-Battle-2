@@ -141,28 +141,28 @@ public class Main {
         if (sea[row][col] == 0) {
             // Miss
             sea[row][col] = -1;
-            System.out.println("Промах!");
+            System.out.println("Miss! ");
         } else if (sea[row][col] > 0) {
             // Hit
             int shipSize = sea[row][col];
-            sea[row][col] = -2; // Помечаем как попадание
+            sea[row][col] = -2; // mark like hit
 
-            // Проверяем, потоплен ли весь корабль
+            // Checking to see if the entire ship is sunk
             if (isShipSunk(sea, shipSize, row, col)) {
-                System.out.println("Попадание и потоплен корабль размером " + shipSize + "!");
+                System.out.println("Hit and sunk a ship the size of " + shipSize + "!");
 
             } else {
-                System.out.println("Попадание!");
+                System.out.println("Hit!");
             }
         } else {
-            // Уже было попадание по этой позиции
-            System.out.println("Вы уже стреляли сюда. Попробуйте снова.");
+            //This position has already been hit
+            System.out.println("\n" + "You've already shot here. Try again.");
         }
     }
 
     private static boolean isShipSunk(int[][] sea, int shipSize, int row, int col) {
         if (shipSize == 1) {
-            return true; // Одноклеточный корабль всегда потоплен
+            return true; // Single cell ship is always sunk
         }
         else if (shipSize == 2) {
             if (row == 0){
@@ -200,17 +200,17 @@ public class Main {
         for (int i = 0; i < sea.length; i++) {
             for (int j = 0; j < sea[i].length; j++) {
                 if (sea[i][j] == shipSize) {
-                    // Как только найден кусок корабля данного размера, проверяем, все ли его части потоплены
+                    // As soon as a piece of a ship of a given size is found, we check whether all its parts are sunk
                     if (!isShipPartIntact(sea, i, j)) {
                         return false;
                     }
                 }
             }
         }
-        return true; // Весь корабль потоплен
+        return true; // The whole ship is sunk
     }
     private static boolean isShipPartIntact(int[][] sea, int row, int col) {
-        return sea[row][col] == -2; // Проверяем, что данная часть корабля потоплена
+        return sea[row][col] == -2; //We check that this part of the ship is sunk
     }
     private static void printSea(int[][] sea, boolean hideShips) {
         System.out.println(" ");
@@ -228,16 +228,16 @@ public class Main {
                 String color = ANSI_RESET;
 
                 if (sea[i][j] == 0 || (sea[i][j] > 0 && hideShips)) {
-                    symbol = '~'; // Пустая ячейка или скрытый корабль
+                    symbol = '~'; // Empty cell or hidden ship
                     color = ANSI_BLUE;
                 } else if (sea[i][j] == -1) {
-                    symbol = 'o'; // Промах
+                    symbol = 'o'; // Miss
                     color = ANSI_YELLOW;
                 } else if (sea[i][j] == -2) {
-                    symbol = 'X'; // Попадание
+                    symbol = 'X'; // Hit
                     color = ANSI_RED;
                 } else {
-                    symbol = 'S'; // Корабль (вы можете выбрать другой символ)
+                    symbol = 'S'; // Ship (you can choose another symbol to hide or indicate ship)
                     color = ANSI_BLUE;
                 }
                 System.out.print(" " + color + symbol + ANSI_RESET);
@@ -413,7 +413,7 @@ public class Main {
     }
 
     private static boolean checkAroundShipHorizontally(int[][] sea, int shipSize, int endCol, int endRow, int startRow, int startCol, int newStartRow, int newStartCol) {
-        int l = 0; //to check how many objects surounded the ship
+        int l = 0; //to check how many objects surrounded the ship
         // when the ship is at left of the top
         if (newStartCol < 0 && newStartRow < 0) {
             for (int i = 0; i <= shipSize; i++) {
@@ -541,4 +541,4 @@ public class Main {
         System.out.flush();
     }
 }
-//just check
+
